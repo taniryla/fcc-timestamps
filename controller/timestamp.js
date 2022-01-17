@@ -9,16 +9,16 @@ module.exports = {
 let responseObject = {}
 
 function show (req, res) {  
-  let input = request.params.input;
-  if(input.includes('-')) {
+  let date = request.params.date;
+  if(date.includes('-')) {
     // Date String
-    responseObject['unix'] = new Date(input).getTime();
-    responseObject['utc'] = new Date(input).toUTCSString();
+    responseObject['unix'] = new Date(date).getTime();
+    responseObject['utc'] = new Date(date).toUTCString();
   } else {
     // Timestamp (working with a String), need to convert to an interger
-    input = parseInt(input);
-    responseObject['unix'] = new Date(input).getTime(); // get time converts to a unix timestamp
-    responseObject['utc'] = new Date(input).toUTCSString();
+    date = parseInt(date);
+    responseObject['unix'] = new Date(date).getTime(); // get time converts to a unix timestamp
+    responseObject['utc'] = new Date(date).toUTCString();
   }
   if(!responseObject['unix'] || !responseObject['utc']) {
     res.json({ error: 'Invalid Date' })
@@ -28,7 +28,7 @@ function show (req, res) {
 
 function index (req, res) {
   responseObject['unix'] = new Date().getTime();
-  responseObject['utc'] = new Date().toUTCSString();
+  responseObject['utc'] = new Date().toUTCString();
   res.render('api/timestamp/', { responseObject });
 }
 

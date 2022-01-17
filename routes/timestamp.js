@@ -7,11 +7,11 @@ var timestampCtrl = require('../controller/timestamp');
 
 
 // show GET /api/timestamp/:input
-router.get('/api/timestamp/:input', timestampCtrl.show);
+router.get('/api/:date?', timestampCtrl.show);
 
 // show GET /api/timestamp/
 
-router.get('/api/timestamp/', timestampCtrl.index);
+router.get('/api/', timestampCtrl.index);
 
 
 module.exports = router;
