@@ -6,31 +6,23 @@ module.exports = {
     index
 };
 
-let responseObject = {}
-
 function show (req, res) {  
-  let date = request.params.date;
-  if(date.includes('-')) {
-    // Date String
-    responseObject['unix'] = new Date(date).getTime();
-    responseObject['utc'] = new Date(date).toUTCString();
-  } else {
-    // Timestamp (working with a String), need to convert to an interger
-    date = parseInt(date);
-    responseObject['unix'] = new Date(date).getTime(); // get time converts to a unix timestamp
-    responseObject['utc'] = new Date(date).toUTCString();
+  let date1;
+  if (/^\d+$/.test(req.params.date)) {
+    date1 = new Date(parseInt(req.params.date));
   }
-  if(!responseObject['unix'] || !responseObject['utc']) {
-    res.json({ error: 'Invalid Date' })
-  } 
-  res.render('api/timestamp/', { responseObject });
+  else {
+    date1 = new Date(req.params.date);
+  }
+  
+  if (date1.toString() !== 'Invalid Date') {
+    res.json({unix: date1.getTime(), utc: date1.toGMTString()});
+  } else {
+    res.json({error: "Invalid Date"});
+}
 }
 
 function index (req, res) {
-  responseObject['unix'] = new Date().getTime();
-  responseObject['utc'] = new Date().toUTCString();
-  res.render('api/timestamp/', { responseObject });
+  res.json( {unix: new Date().getTime() }),
+  { utc: new Date().toUTCString() };
 }
-
- 
-

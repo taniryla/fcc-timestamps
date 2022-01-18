@@ -8,7 +8,7 @@ var ejs = require('ejs');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
-var timestampRouter = require('./routes/timestamp');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -29,7 +29,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 // starts with the path '/api
 
-app.use('/timestamp', timestampRouter);
+app.use('/api', apiRouter);
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + '/views/index.ejs');
+});
+
+// your first API endpoint
+app.get('/api/hello', (req, res) => {
+  res.json( { greeting: 'hello API' });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,6 +55,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
 
 
