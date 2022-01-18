@@ -14,6 +14,14 @@ function show (req, res) {
   else {
     date1 = new Date(req.params.date);
   }
+
+  if (req.params.date === '' || req.params.date === undefined) {
+    const current = new Date();
+    return res.json({
+      unix: current.getTime(),
+      utc: current.toUTCString(),
+    });
+  }
   
   if (date1.toString() !== 'Invalid Date') {
     res.json({unix: date1.valueOf(), utc: date1.toGMTString()});
