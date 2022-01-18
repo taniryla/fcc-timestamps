@@ -16,7 +16,7 @@ function show (req, res) {
   }
   
   if (date1.toString() !== 'Invalid Date') {
-    res.json({unix: date1.getTime(), utc: date1.toGMTString()});
+    res.json({unix: date1.valueOf(), utc: date1.toGMTString()});
   } else {
     res.json({error: "Invalid Date"});
 }
