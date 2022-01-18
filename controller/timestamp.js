@@ -23,6 +23,9 @@ function show (req, res) {
 }
 
 function index (req, res) {
-  res.json( {unix: new Date().getTime() }),
-  { utc: new Date().toUTCString() };
+  let date = new Date();
+  date.setMinutes(date.getMinutes()-3);
+  
+  res.json( {unix: date.getTime() }),
+  { utc: date.toUTCString() };
 }
